@@ -2,7 +2,7 @@
   <div class="other-login" id="other-login">
     <BaseHeader mode="light" backMode="dark" backImg="back">
       <template v-slot:right>
-        <span class="f14" @click="$nav('/login/help')">帮助与设置</span>
+        <span class="f14" @click="$router.push('/login/help')">帮助与设置</span>
       </template>
     </BaseHeader>
     <div class="content">
@@ -24,11 +24,13 @@
         </div>
         <div class="right">
           已阅读并同意
-          <span class="link" @click="$nav('/service-protocol', { type: '“抖音”用户服务协议' })"
+          <span
+            class="link"
+            @click="$router.push('/service-protocol', { type: '“抖音”用户服务协议' })"
             >用户协议</span
           >
           和
-          <span class="link" @click="$nav('/service-protocol', { type: '“抖音”隐私政策' })"
+          <span class="link" @click="$router.push('/service-protocol', { type: '“抖音”隐私政策' })"
             >隐私政策</span
           >
           ，同时登录并使用抖音火山版（原“火山小视频”）和抖音
@@ -46,7 +48,7 @@
       </dy-button>
 
       <div class="options">
-        <span class="link" @click="$nav('/login/password')">密码登录</span>
+        <span class="link" @click="$router.push('/login/password')">密码登录</span>
         <span class="link" @click="otherLogin">其他方式登录</span>
       </div>
 
@@ -58,19 +60,19 @@
         mode="white"
       >
         <div class="block-dialog">
-          <div class="item" @click="$no">
+          <div class="item" @click="_no">
             <img src="../../assets/img/icon/login/toutiao-round.png" alt="" />
             <span>今日头条登录</span>
           </div>
-          <div class="item" @click="$no">
+          <div class="item" @click="_no">
             <img src="../../assets/img/icon/login/qq.webp" alt="" />
             <span>QQ登录</span>
           </div>
-          <div class="item" @click="$no">
+          <div class="item" @click="_no">
             <img src="../../assets/img/icon/login/wechat.webp" alt="" />
             <span>微信登录</span>
           </div>
-          <div class="item" @click="$no">
+          <div class="item" @click="_no">
             <img src="../../assets/img/icon/login/weibo.webp" alt="" />
             <span>微博登录</span>
           </div>
@@ -87,6 +89,7 @@ import Tooltip from './components/Tooltip'
 import LoginInput from './components/LoginInput'
 import Base from './Base.js'
 import FromBottomDialog from '../../components/dialog/FromBottomDialog'
+import { _no } from '@/utils'
 
 export default {
   name: 'OtherLogin',
@@ -106,12 +109,13 @@ export default {
   computed: {},
   created() {},
   methods: {
+    _no,
     async getCode() {
       let res = await this.check()
       if (res) {
         this.loading = true
         setTimeout(() => {
-          this.$nav('/login/verification-code')
+          this.$router.push('/login/verification-code')
         }, 2000)
       }
     },
@@ -140,29 +144,80 @@ export default {
   font-size: 14rem;
   background: white;
 
-  .block-dialog {
-    color: black;
+  .content {
+    padding: 60rem 30rem;
 
-    .item {
-      height: 50rem;
+    .desc {
+      margin-bottom: 60rem;
+      margin-top: 120rem;
       display: flex;
-      justify-content: center;
       align-items: center;
-      border-top: 1px solid gainsboro;
+      flex-direction: column;
 
-      img {
-        height: 25rem;
-        margin-right: 10rem;
+      .title {
+        margin-bottom: 20rem;
+        font-size: 20rem;
       }
 
-      &:nth-last-child(1) {
-        border-top: none;
+      .phone-number {
+        letter-spacing: 3rem;
+        font-size: 30rem;
+        margin-bottom: 10rem;
+      }
+
+      .sub-title {
+        font-size: 12rem;
+        color: var(--second-text-color);
       }
     }
 
-    .space {
-      height: 10rem;
-      background: whitesmoke;
+    .button {
+      width: 100%;
+      margin-bottom: 5rem;
+    }
+
+    .protocol {
+      position: relative;
+      color: gray;
+      margin-top: 20rem;
+      font-size: 12rem;
+      display: flex;
+
+      .left {
+        padding-top: 1rem;
+        margin-right: 5rem;
+      }
+    }
+
+    .options {
+      position: relative;
+      font-size: 14rem;
+      display: flex;
+    }
+    .block-dialog {
+      color: black;
+
+      .item {
+        height: 50rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-top: 1px solid gainsboro;
+
+        img {
+          height: 25rem;
+          margin-right: 10rem;
+        }
+
+        &:nth-last-child(1) {
+          border-top: none;
+        }
+      }
+
+      .space {
+        height: 10rem;
+        background: whitesmoke;
+      }
     }
   }
 }
